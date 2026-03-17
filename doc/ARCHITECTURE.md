@@ -4,34 +4,15 @@
 
 PatchClean AI is a pipeline with four stages: **Scan**, **Query**, **Classify**, and **Act**. Each stage is handled by a dedicated module, with data flowing through shared dataclasses.
 
-```
-                    +-----------+
-                    |  scanner  |  Scan C:\Windows\Installer
-                    +-----+-----+
-                          |
-                    list[InstallerFile]
-                          |
-                    +-----v-----+
-                    | msi_query |  Query COM + registry
-                    +-----+-----+
-                          |
-                    dict{path: FileInfo}
-                          |
-                    +-----v-----+
-                    |  analyzer |  Cross-reference & classify
-                    +-----+-----+
-                          |
-                       ScanResult
-                          |
-              +-----------+-----------+
-              |                       |
-        +-----v-----+          +-----v-----+
-        | ai_advisor |          |    cli    |  Display results
-        | (optional) |          +-----+-----+
-        +-----+-----+                |
-              |                 +-----v-----+
-         ScanResult             |  actions  |  Move / delete
-         (updated)              +-----------+
+```mermaid
+flowchart TD
+    A[scanner<br/>Scan C:\Windows\Installer] -->|"list[InstallerFile]"| B[msi_query<br/>Query COM + registry]
+    B -->|"dict&lbrace;path: FileInfo&rbrace;"| C[analyzer<br/>Cross-reference & classify]
+    C -->|ScanResult| D{Route}
+    D --> E[ai_advisor<br/>optional]
+    D --> F[cli<br/>Display results]
+    E -->|"ScanResult (updated)"| F
+    F --> G[actions<br/>Move / delete]
 ```
 
 ## Data models (`models.py`)
