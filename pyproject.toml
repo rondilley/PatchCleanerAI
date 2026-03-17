@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "patchclean"
+version = "0.1.0"
+description = "Python clone of PatchCleaner — scan, classify, and clean C:\\Windows\\Installer orphans"
+requires-python = ">=3.10"
+dependencies = [
+    "pywin32>=306",
+    "anthropic>=0.39.0",
+    "python-dotenv>=1.0.0",
+    "rich>=13.0.0",
+]
+
+[project.scripts]
+patchclean = "patchclean.cli:main"
